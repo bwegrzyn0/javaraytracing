@@ -12,7 +12,7 @@ public class Ray {
     this.origin = origin;
   }
 
-  public Vector3 pointAt(int t) {
+  public Vector3 pointAt(float t) {
     Vector3 p = new Vector3(origin);
     p.add(dir.multiplied(t));
     return p;

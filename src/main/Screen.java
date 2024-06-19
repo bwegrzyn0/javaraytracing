@@ -47,6 +47,7 @@ public class Screen extends Canvas {
     graphics.drawImage(screenImage, 0, 0, null);
     graphics.dispose();
     bufferStrategy.show();
+    sphere.position.z += 0.01f;
   }
 
   public void sendRays() {
@@ -59,14 +60,23 @@ public class Screen extends Canvas {
         rayDir.add(cameraCenter.multiplied(-1));
         rayDir.normalize();
         Ray ray = new Ray(rayDir, cameraCenter);
-        drawPixel(i, j, rayColor(ray, i));
+        drawPixel(i, j, rayColor(ray));
       }
     }
   }
 
-  public int rayColor(Ray ray, int i) {
-    int value = (int) (255f * (1 - (float) (i) / Main.WIDTH));
-    int color = (value << 16) + (value << 8) + 255;
-    return sphere.rayIntersection(ray) ? sphere.color : color;
+  public int rayColor(Ray ray) {
+    int color;
+    float intersect = sphere.rayIntersection(ray);
+    if (intersect >= 0) {
+      Vector3 normal = ray.pointAt(intersect);
+      normal.add(sphere.position.multiplied(-1));
+      normal.normalize();
+      color = ((int) ((1 + normal.x) * 255 / 2) << 16) + ((int) ((1 + normal.y) * 255 / 2) << 8)
+          + (int) ((normal.z + 1) * 255 / 2);
+    } else {
+      color = (ray.dir.y >= 0) ? 255 + (100 << 8) : (100 << 16) + (100 << 8) + 100;
+    }
+    return color;
   }
 }
