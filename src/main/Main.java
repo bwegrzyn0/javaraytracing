@@ -6,6 +6,9 @@ public class Main implements Runnable {
   public Screen screen;
   private boolean running = false;
   private Thread thread;
+  public static final float viewportWidth = 1f;
+  public static final float viewportHeight = viewportWidth * ((float) Main.HEIGHT / (float) Main.WIDTH);
+  public static final float focalLength = 1f;
 
   public Main() {
     screen = new Screen();
