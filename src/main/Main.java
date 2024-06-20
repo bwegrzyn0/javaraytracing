@@ -7,19 +7,25 @@ import ray.Sphere;
 
 public class Main implements Runnable {
 
-  public static final int WIDTH = 800, HEIGHT = 600;
+  public static final int WIDTH = 600, HEIGHT = WIDTH * 9 / 16;
   public Screen screen;
-  private boolean running = false;
+  public static boolean running = false;
   private Thread thread;
   public static final float viewportWidth = 1f;
   public static final float viewportHeight = viewportWidth * ((float) Main.HEIGHT / (float) Main.WIDTH);
-  public static final float focalLength = 1f;
+  public static final float focalLength = 0.5f;
   public static ArrayList<Sphere> spheres = new ArrayList<>();
 
   public Main() {
     screen = new Screen();
-    spheres.add(new Sphere(new Vector3(0, 0, 10), 2f, (100 << 8) + 255));
-    spheres.add(new Sphere(new Vector3(3, -3, 30), 5f, (100 << 8) + 255));
+    int[] color1 = { 255, 50, 60 };
+    int[] color2 = { 255, 255, 255 };
+    int[] color3 = { 50, 255, 100 };
+    int[] color4 = { 100, 50, 100 };
+    spheres.add(new Sphere(new Vector3(0, 0, 10), 2f, color1));
+    spheres.add(new Sphere(new Vector3(5.1f, 0, 10), 3f, color2));
+    spheres.add(new Sphere(new Vector3(-4, 0, 10), 1f, color4));
+    spheres.add(new Sphere(new Vector3(0, -1005, 10), 1000f, color3));
     new Window(WIDTH, HEIGHT, "Raytracing", screen);
     start();
   }
@@ -44,18 +50,9 @@ public class Main implements Runnable {
     System.exit(0);
   }
 
-  int FPS = 0;
-  long lastTime = System.currentTimeMillis();
-
   public void run() {
     while (running) {
       screen.render();
-      FPS++;
-      if (System.currentTimeMillis() - lastTime >= 1000) {
-        System.out.println("FPS: " + FPS);
-        lastTime = System.currentTimeMillis();
-        FPS = 0;
-      }
     }
   }
 

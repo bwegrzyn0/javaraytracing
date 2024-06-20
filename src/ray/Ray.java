@@ -5,7 +5,7 @@ import math.Vector3;
 public class Ray {
 
   public Vector3 dir, origin;
-  public int color;
+  public int[] color;
 
   public Ray(Vector3 dir, Vector3 origin) {
     this.dir = dir;

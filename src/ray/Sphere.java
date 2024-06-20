@@ -6,9 +6,9 @@ public class Sphere {
 
   public Vector3 position;
   public float radius;
-  public int color;
+  public int[] color;
 
-  public Sphere(Vector3 position, float radius, int color) {
+  public Sphere(Vector3 position, float radius, int[] color) {
     this.position = position;
     this.radius = radius;
     this.color = color;
