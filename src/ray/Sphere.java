@@ -15,12 +15,11 @@ public class Sphere {
   }
 
   public float rayIntersection(Ray ray) {
-    float a = ray.dir.dot(ray.dir);
     Vector3 tempVec = new Vector3(position);
     tempVec.add(ray.origin.multiplied(-1));
-    float b = -2f * ray.dir.dot(tempVec);
+    float h = ray.dir.dot(tempVec);
     float c = tempVec.dot(tempVec) - radius * radius;
-    float delta = b * b - 4 * a * c;
-    return (delta >= 0) ? (-b - (float) Math.sqrt(delta)) / (2 * a) : -1f;
+    float delta = h * h - c;
+    return (delta >= 0) ? (h - (float) Math.sqrt(delta)) : -1f;
   }
 }

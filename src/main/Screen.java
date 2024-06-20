@@ -17,7 +17,6 @@ public class Screen extends Canvas {
   Vector3 deltaU = new Vector3(uVector);
   Vector3 deltaV = new Vector3(vVector);
   Vector3 pixel00Center;
-  Sphere sphere = new Sphere(new Vector3(0, 0, 4), 1f, 255 << 8);
 
   public Screen() {
     screenImage = new BufferedImage(Main.WIDTH, Main.HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -47,7 +46,6 @@ public class Screen extends Canvas {
     graphics.drawImage(screenImage, 0, 0, null);
     graphics.dispose();
     bufferStrategy.show();
-    sphere.position.z += 0.01f;
   }
 
   public void sendRays() {
@@ -66,16 +64,17 @@ public class Screen extends Canvas {
   }
 
   public int rayColor(Ray ray) {
-    int color;
-    float intersect = sphere.rayIntersection(ray);
-    if (intersect >= 0) {
-      Vector3 normal = ray.pointAt(intersect);
-      normal.add(sphere.position.multiplied(-1));
-      normal.normalize();
-      color = ((int) ((1 + normal.x) * 255 / 2) << 16) + ((int) ((1 + normal.y) * 255 / 2) << 8)
-          + (int) ((normal.z + 1) * 255 / 2);
-    } else {
-      color = (ray.dir.y >= 0) ? 255 + (100 << 8) : (100 << 16) + (100 << 8) + 100;
+    int color = (ray.dir.y >= 0) ? 255 + (100 << 8) : (100 << 16) + (100 << 8) + 100;
+    for (Sphere sphere : Main.spheres) {
+      float intersect = sphere.rayIntersection(ray);
+      if (intersect >= 0) {
+        Vector3 normal = ray.pointAt(intersect);
+        normal.add(sphere.position.multiplied(-1));
+        normal.normalize();
+        color = ((int) ((1 + normal.x) * 255 / 2) << 16) + ((int) ((1 + normal.y) * 255 / 2) << 8)
+            + (int) ((normal.z + 1) * 255 / 2);
+        break;
+      }
     }
     return color;
   }
