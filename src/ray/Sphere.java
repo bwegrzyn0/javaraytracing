@@ -7,11 +7,13 @@ public class Sphere {
   public Vector3 position;
   public float radius;
   public int[] color;
+  public float roughness;
 
-  public Sphere(Vector3 position, float radius, int[] color) {
+  public Sphere(Vector3 position, float radius, int[] color, float roughness) {
     this.position = position;
     this.radius = radius;
     this.color = color;
+    this.roughness = roughness;
   }
 
   public float rayIntersection(Ray ray) {
